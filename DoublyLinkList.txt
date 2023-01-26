@@ -1,0 +1,305 @@
+#include<stdio.h>
+#include<conio.h>
+struct node
+{
+ int data;
+ struct node *prev;
+ struct node *next;
+};
+struct node *newnode,*head=0,*tail,*head2,*tail2;
+void insert()
+{
+ int choice;
+ while(choice)
+ {
+ newnode=(struct node *) malloc(sizeof(struct node));
+ printf("\nenter data:");
+ scanf("%d",&newnode->data);
+ newnode->prev=0;
+ newnode->next=0;
+ if(head==0)
+ {
+  head=tail=newnode;
+ }
+ else
+ {
+  tail->next=newnode;
+  newnode->prev=tail;
+  tail=newnode;
+ }
+ printf("\nDo u want to continue:");
+ scanf("%d",&choice);
+ }
+}
+void display()
+{
+ struct node *temp;
+ temp=head;
+ while(temp!=0)
+ {
+  printf("\nData=%d",temp->data);
+  temp=temp->next;
+ }
+}
+void insert2()
+{
+ int choice;
+ while(choice)
+ {
+ newnode=(struct node *) malloc(sizeof(struct node));
+ printf("\nenter data:");
+ scanf("%d",&newnode->data);
+ newnode->prev=0;
+ newnode->next=0;
+ if(head2==0)
+ {
+  head2=tail2=newnode;
+ }
+ else
+ {
+  tail2->next=newnode;
+  newnode->prev=tail2;
+  tail2=newnode;
+ }
+ printf("\nDo u want to continue:");
+ scanf("%d",&choice);
+ }
+}
+void display2()
+{
+ struct node *temp;
+ temp=head2;
+ while(temp!=0)
+ {
+  printf("\nData=%d",temp->data);
+  temp=temp->next;
+ }
+}
+void merge()
+{
+ struct node *temp;
+ temp=head;
+ tail->next=head2;
+ while(temp!=0)
+ {
+  printf("\ndata=%d",temp->data);
+  temp=temp->next;
+ }
+}
+void split()
+{
+ struct node *temp, *temp1,*temp2,*head2;
+ int mid,count=1,i;
+ temp=head;
+ temp1=head;
+ while(temp!=0)
+ {
+  printf("\nData=%d",temp->data);
+  temp=temp->next;
+  count++;
+ }
+ mid=(count/2);
+ printf("\nAfter spliting First part:\n");
+ for(i=0;i<mid;i++)
+ {
+  printf("\nData=%d",temp1->data);
+  temp1=temp1->next;
+ }
+
+ head2=temp1->next;
+ temp2=head2;
+ printf("\nAfter spliting second part:\n");
+ printf("\nData=%d",temp1->data);
+ while(temp2!=0)
+ {
+  printf("\nData=%d",temp2->data);
+  temp2=temp2->next;
+ }
+}
+void sort()
+{
+  struct node *i,*j;
+  int temp;
+  for(i=head;i->next!=0;i=i->next)
+  {
+   for(j=i->next;j!=0;j=j->next)
+   {
+    if(i->data > j->data)
+    {
+     temp=i->data;
+     i->data=j->data;
+     j->data=temp;
+    }
+   }
+  }
+}
+void search()
+{
+ int s,count=1,flag=0;
+ struct node *temp;
+ temp=head;
+ printf("\nEnter element which u want to find:");
+ scanf("%d",&s);
+ while(temp->next!=0)
+ {
+  if(temp->data==s)
+  {
+   flag=1;
+   break;
+  }
+  count++;
+  temp=temp->next;
+ }
+ if(flag==1)
+ {
+  printf("\ndata is found at %d\n",count);
+ }
+ if(flag==0)
+ {
+  printf("\ndata is not found\n");
+ }
+}
+void inatfirst()
+{
+ newnode=(struct node *) malloc(sizeof(struct node));
+ newnode->next=0;
+ printf("\nenter data which u want to insert at first:");
+ scanf("%d",&newnode->data);
+ newnode->next=head;
+ newnode->next->prev=newnode;
+ head=newnode;
+}
+void inatlast()
+{
+ newnode=(struct node *) malloc(sizeof(struct node));
+ printf("\nEnter data:");
+ scanf("%d",&newnode->data);
+ newnode->next=0;
+ tail->next=newnode;
+ newnode->prev=tail;
+ tail=newnode;
+}
+void inafpos()
+{
+ int pos,i=1;
+ struct node *temp;
+ temp=head;
+  printf("\nEnter Pos:");
+  scanf("%d",&pos);
+  newnode=(struct node *) malloc(sizeof(struct node));
+  printf("\nEnter data:");
+  scanf("%d",&newnode->data);
+  while(i<pos)
+  {
+   temp=temp->next;
+   i++;
+  }
+  newnode->next=temp->next;
+  temp->next->prev=newnode;
+  newnode->prev=temp;
+  temp->next=newnode;
+}
+void delatfirst()
+{
+ struct node *temp;
+ temp=head;
+ head=head->next;
+ free(temp);
+}
+void delatlast()
+{
+ struct node *temp;
+ temp=tail;
+ tail->prev->next=0;
+ tail=tail->prev;
+ free(temp);
+}
+void delafpos()
+{
+ int pos,i=1;
+ struct node *temp;
+ temp=head;
+ printf("\nEnter pos:");
+ scanf("%d",&pos);
+ while(i<pos)
+ {
+  temp=temp->next;
+  i++;
+ }
+ temp->next->prev=temp->prev;
+ temp->prev->next=temp->next;
+ free(temp);
+}
+void insertion()
+{
+ int ch1;
+ do
+ {
+  printf("\n1.insert at first \n2.insert at last \n3.insert after pos \nenter your choice:");
+  scanf("%d",&ch1);
+  switch(ch1)
+  {
+   case 1:inatfirst();
+   break;
+   case 2:inatlast();
+   break;
+   case 3:inafpos();
+   break;
+  }
+ } while(ch1!=0);
+ display();
+}
+void deletion()
+{
+ int ch2;
+ do
+ {
+  printf("\n1.del at first \n2.del at last \n3.del after pos \nenter your choice:");
+  scanf("%d",&ch2);
+  switch(ch2)
+  {
+   case 1:delatfirst();
+   break;
+   case 2:delatlast();
+   break;
+   case 3:delafpos();
+   break;
+  }
+ } while(ch2!=0);
+ display();
+}
+void main()
+{
+ int ch;
+ clrscr();
+ while(ch)
+ {
+  printf("\n1.insert 2.display 3.insert2 4.display2 5.merge 6.split 7.sort 8.search 9.insertion 10.delete 11.exit\nenter your choice:");
+  scanf("%d",&ch);
+  switch(ch)
+  {
+   case 1:insert();
+   break;
+   case 2:display();
+   break;
+   case 3:insert2();
+   break;
+   case 4:display2();
+   break;
+   case 5:merge();
+   break;
+   case 6:split();
+   break;
+   case 7:sort();
+   break;
+   case 8:search();
+   break;
+   case 9:insertion();
+   break;
+   case 10:deletion();
+   break;
+   case 11:exit(0);
+  }
+ }
+ getch();
+}
